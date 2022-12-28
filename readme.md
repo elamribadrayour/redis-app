@@ -13,3 +13,9 @@ docker compose build
 ```console
 docker compose up
 ```
+
+* Acces API by opening the link below in your browser
+
+```console
+http://localhost:8080
+```
