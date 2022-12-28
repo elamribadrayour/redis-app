@@ -1,0 +1,40 @@
+
+version: '3.8'
+services:
+  cache:
+    image: redis:latest
+    container_name: cache
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes: 
+      - cache:/data
+
+  api:
+    image: api
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+    volumes:
+      - ./src/:/code/
+      - ~/.config/gcloud/application_default_credentials.json:/opt/credentials.json
+    ports:
+      - 8080:8080
+    command:
+      [
+        "uvicorn",
+        "app.main:app",
+        "--reload",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8080"
+      ]
+
+volumes:
+  cache:
+    driver: local

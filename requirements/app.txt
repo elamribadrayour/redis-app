@@ -1,0 +1,4 @@
+redis[hiredis]
+fastapi
+pydantic
+uvicorn
